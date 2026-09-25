@@ -46,7 +46,7 @@ data "aws_ami" "amazon-linux" {
   }
 }
 
-
 data "aws_iam_instance_profile" "ec2_profile_data" {
-  name = aws_iam_instance_profile.ec2_profile.name
+  name = "ec2-profile-role"   # must match the actual profile name in AWS
 }
+
