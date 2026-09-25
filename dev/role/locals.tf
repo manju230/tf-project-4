@@ -1,5 +1,5 @@
 locals  {
-    comman_tags = {
+    common_tags = {
     Project     = "Enterprise"
     Environment = "Development"
     Owner       = "Manjunath"
