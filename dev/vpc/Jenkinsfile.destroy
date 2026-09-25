@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+
+    environment {
+        TF_WORKSPACE = "default"
+        TF_CLI_ARGS = "-no-color"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'develop', url: 'https://github.com/manju230/manju-yes-lab.git'
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+
+        stage('Terraform Destroy Approval') {
+            steps {
+                script {
+                    def destroyInput = input(
+                        id: 'ProceedDestroy',
+                        message: 'Do you want to destroy this Terraform infrastructure?',
+                        parameters: [
+                            choice(name: 'Confirm', choices: ['No', 'Yes'], description: 'Select Yes to destroy, No to abort')
+                        ]
+                    )
+                    if (destroyInput == 'No') {
+                        error("Terraform destroy aborted by user.")
+                    }
+                }
+            }
+        }
+
+        stage('Terraform Destroy') {
+            steps {
+                sh 'terraform destroy -var-file=terraform.tfvars -auto-approve'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Terraform destroy pipeline completed successfully!'
+        }
+        failure {
+            echo 'Terraform destroy pipeline failed or was aborted.'
+        }
+    }
+}
