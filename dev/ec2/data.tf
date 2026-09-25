@@ -45,3 +45,8 @@ data "aws_ami" "amazon-linux" {
     values = ["hvm"]
   }
 }
+
+
+data "aws_iam_instance_profile" "ec2_profile_data" {
+  name = aws_iam_instance_profile.ec2_profile.name
+}
