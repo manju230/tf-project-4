@@ -44,10 +44,11 @@ resource "aws_instance" "app_server" {
   ami           = data.aws_ami.amazon-linux.id
   instance_type = var.instance_type
   subnet_id     = data.aws_subnet.app_a.id
-  disable_api_termination = true
+  disable_api_termination = false
    associate_public_ip_address = false
  key_name   = "tf-manju"  # Attach SG
   vpc_security_group_ids = [aws_security_group.app_sg.id]
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 
   # Root volume (20 GB gp2)
   root_block_device {
