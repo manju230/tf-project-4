@@ -8,29 +8,20 @@ data "aws_vpc" "main" {
   }
 }
 
-# -------------------
-# Fetch subnets by tag
-# -------------------
 data "aws_subnet" "app_a" {
   filter {
     name   = "tag:Name"
-    values = ["${local.prefix}-app-subnet-${local.az_map["ap-south-1a"]}-01"]
+    values = ["mumbai-vpc-app-subnet-az1-01"]
   }
 }
 
 data "aws_subnet" "app_b" {
   filter {
     name   = "tag:Name"
-    values = ["${local.prefix}-app-subnet-${local.az_map["ap-south-1b"]}-01"]
+    values = ["mumbai-vpc-app-subnet-az2-01"]
   }
 }
 
-data "aws_subnet" "app_c" {
-  filter {
-    name   = "tag:Name"
-    values = ["${local.prefix}-app-subnet-${local.az_map["ap-south-1c"]}-01"]
-  }
-}
  
 
 
@@ -39,4 +30,9 @@ data "aws_instance" "app_server" {
     name   = "tag:Name"
     values = ["${local.prefix}-app-server"]
   }
+}
+
+data "aws_security_group" "app_sg" {
+  name   = "mumbai-vpc-app-sg"   # replace with actual SG name
+  vpc_id = aws_vpc.main.id           # optional, helps disambiguate if multiple SGs have same name
 }

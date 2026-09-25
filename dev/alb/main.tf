@@ -2,8 +2,8 @@ resource "aws_lb" "alb" {
   name = "project-4-alb"
   internal = false
   load_balancer_type = "application"
-   security_groups = [aws_security_group.alb_sg.id]
-    subnets = [data.aws_subnet.alb_a.id, data.aws_subnet.alb_b.id]    
+   security_groups = [data.aws_security_group.app_sg.id]
+    subnets = [data.aws_subnet.app_a.id, data.aws_subnet.app_b.id]    
     tags = local.common_tags
 }
 
