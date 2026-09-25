@@ -48,7 +48,7 @@ resource "aws_instance" "app_server" {
    associate_public_ip_address = false
  key_name   = "tf-manju"  # Attach SG
   vpc_security_group_ids = [aws_security_group.app_sg.id]
-  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+  iam_instance_profile = data.aws_iam_instance_profile.ec2_profile_data.name
 
   # Root volume (20 GB gp2)
   root_block_device {
