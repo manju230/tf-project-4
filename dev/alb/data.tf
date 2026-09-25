@@ -34,5 +34,5 @@ data "aws_instance" "app_server" {
 
 data "aws_security_group" "app_sg" {
   name   = "mumbai-vpc-app-sg"   # replace with actual SG name
-  vpc_id = aws_vpc.main.id           # optional, helps disambiguate if multiple SGs have same name
+  vpc_id = data.aws_vpc.main.id           # optional, helps disambiguate if multiple SGs have same name
 }
